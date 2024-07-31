@@ -9,7 +9,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
-from retrying import retry
+import time
 
 # Streamlit input
 st.title('لمعرفة المعدل التوجيهي 2024')
@@ -34,13 +34,20 @@ if matricule:
 
     driver = get_driver()
 
-    @retry(stop_max_attempt_number=10, wait_fixed=2000)
-    def load_page(url):
-        driver.get(url)
+    def load_page_with_retry(url, retries=5, delay=2):
+        for i in range(retries):
+            try:
+                driver.get(url)
+                return
+            except Exception as e:
+                st.warning(f"Attempt {i+1} failed: {e}")
+                time.sleep(delay)
+        st.error("All attempts to load the page failed.")
+        raise Exception("Failed to load the page after several attempts.")
 
     try:
         # Try to load the page
-        load_page(url)
+        load_page_with_retry(url)
 
         # Wait for the table to load
         WebDriverWait(driver, 10).until(
