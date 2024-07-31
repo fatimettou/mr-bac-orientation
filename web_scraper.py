@@ -24,8 +24,9 @@ if matricule:
     @st.cache_resource
     def get_driver():
         try:
-            # Use the manually installed ChromeDriver
-            service = Service("/usr/local/bin/chromedriver")  # Modify this path if necessary
+            # Utilisez le chemin du ChromeDriver installé manuellement
+            chromedriver_path = "/usr/local/bin/chromedriver"  # Assurez-vous que ce chemin est correct
+            service = Service(chromedriver_path)
             driver = webdriver.Chrome(service=service, options=options)
             return driver
         except Exception as e:
