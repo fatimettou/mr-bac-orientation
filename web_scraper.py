@@ -7,7 +7,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 # Fonction pour exécuter le scraping
 def scrape_data(matricule):
@@ -23,11 +22,8 @@ def scrape_data(matricule):
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
 
-    # Ajouter les capacités pour forcer la compatibilité
-    caps = DesiredCapabilities.CHROME
-    caps['goog:loggingPrefs'] = {'performance': 'ALL'}
-    
-    driver = webdriver.Chrome(service=service, options=options, desired_capabilities=caps)
+    # Initialiser le driver Chrome avec les options et les capacités
+    driver = webdriver.Chrome(service=service, options=options)
 
     # Ouvrir la page web
     driver.get(url)
