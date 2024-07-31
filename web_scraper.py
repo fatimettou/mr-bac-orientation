@@ -2,7 +2,6 @@ import pandas as pd
 import streamlit as st
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -25,9 +24,8 @@ if matricule:
     @st.cache_resource
     def get_driver():
         try:
-            # Use a specific version of ChromeDriver that matches your Chromium version
-            chromedriver_path = ChromeDriverManager("120.0.6099.224").install()
-            service = Service(chromedriver_path)
+            # Use the manually installed ChromeDriver
+            service = Service("/usr/local/bin/chromedriver")  # Modify this path if necessary
             driver = webdriver.Chrome(service=service, options=options)
             return driver
         except Exception as e:
@@ -37,7 +35,7 @@ if matricule:
     driver = get_driver()
 
     if driver:
-        def load_page_with_retry(url, retries=2, delay=2):
+        def load_page_with_retry(url, retries=5, delay=2):
             for i in range(retries):
                 try:
                     driver.get(url)
@@ -94,6 +92,8 @@ if matricule:
                 else:
                     moyenne_orientation = None  # Handle the case with fewer than 3 rows differently
 
+                # Add moyenne_orientation to the DataFrame
+                df['moyenne_orientation'] = moyenne_orientation
 
                 # Display the DataFrame
                 st.write(df)
