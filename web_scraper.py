@@ -19,6 +19,8 @@ if matricule:
     options = Options()
     options.add_argument("--disable-gpu")
     options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
 
     @st.cache_resource
     def get_driver():
@@ -84,6 +86,8 @@ if matricule:
             st.write(f'{moyenne_orientation}:المعدل التوجيهي')
         else:
             st.write("Table not found on the webpage.")
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
     finally:
         # Close the browser
         driver.quit()
