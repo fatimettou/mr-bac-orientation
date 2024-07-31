@@ -13,16 +13,15 @@ def scrape_data(matricule):
     # URL de la page web
     url = f"https://dec.education.gov.mr/bac-21/{matricule}/info"
 
-    # Installer et initialiser ChromeDriver
-    service = Service(ChromeDriverManager().install())
-
     # Initialiser le driver Chrome
     options = webdriver.ChromeOptions()
     options.add_argument('--headless')
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--disable-gpu')
 
-    # Initialiser le driver Chrome avec les options et les capacités
+    # Installer et initialiser ChromeDriver
+    service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
 
     # Ouvrir la page web
