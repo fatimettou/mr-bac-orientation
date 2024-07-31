@@ -13,8 +13,8 @@ from bs4 import BeautifulSoup
 
 
 # Streamlit input
-st.title('Extract Information from Website')
-matricule = st.text_input('Enter your matricule:')
+st.title('المعدل التوجيهي باكلوريا 2024')
+matricule = st.text_input('رقم المترشح')
 url = f"https://dec.education.gov.mr/bac-21/{matricule}/info"
 
 if matricule:
@@ -78,12 +78,11 @@ if matricule:
             else:
                 moyenne_orientation = None  # Handle the case with fewer than 3 rows differently
 
-            # Add moyenne_orientation to the DataFrame
-            df['moyenne_orientation'] = moyenne_orientation
+
 
             # Display the DataFrame
             st.write(df)
-            st.write(f'Moyenne Orientation: {moyenne_orientation}')
+            st.write(f'{moyenne_orientation}: المعدل التوجيهي')
         else:
             st.write("Table not found on the webpage.")
     finally:
