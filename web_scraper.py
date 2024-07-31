@@ -10,14 +10,16 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 
-
-
 # Streamlit input
 st.title('Extract Information from Website')
 matricule = st.text_input('Enter your matricule:')
 url = f"https://dec.education.gov.mr/bac-21/{matricule}/info"
 
 if matricule:
+    options = Options()
+    options.add_argument("--disable-gpu")
+    options.add_argument("--headless")
+
     @st.cache_resource
     def get_driver():
         return webdriver.Chrome(
@@ -26,10 +28,6 @@ if matricule:
             ),
             options=options,
         )
-
-    options = Options()
-    options.add_argument("--disable-gpu")
-    options.add_argument("--headless")
 
     driver = get_driver()
     # Open the webpage
