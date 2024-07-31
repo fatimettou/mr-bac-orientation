@@ -25,8 +25,8 @@ if matricule:
     @st.cache_resource
     def get_driver():
         try:
-            # Install the ChromeDriver version that matches your Chromium version
-            chromedriver_path = ChromeDriverManager().install()
+            # Use a specific version of ChromeDriver that matches your Chromium version
+            chromedriver_path = ChromeDriverManager("120.0.6099.224").install()
             service = Service(chromedriver_path)
             driver = webdriver.Chrome(service=service, options=options)
             return driver
