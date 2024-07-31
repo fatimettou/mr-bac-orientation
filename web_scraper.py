@@ -96,4 +96,15 @@ if matricule:
                 # Add moyenne_orientation to the DataFrame
                 df['moyenne_orientation'] = moyenne_orientation
 
-                # Display the Data
+                # Display the DataFrame
+                st.write(df)
+                st.write(f'{moyenne_orientation}:المعدل التوجيهي')
+            else:
+                st.write("Table not found on the webpage.")
+        except Exception as e:
+            st.error(f"An error occurred: {e}")
+        finally:
+            # Close the browser
+            driver.quit()
+    else:
+        st.error("WebDriver could not be initialized.")
