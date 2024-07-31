@@ -11,8 +11,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 
 # Streamlit input
-st.title('Extract Information from Website')
-matricule = st.text_input('Enter your matricule:')
+st.title('لمعرفة المعدل التوجيهي 2024')
+matricule = st.text_input('رقم المترشح')
 url = f"https://dec.education.gov.mr/bac-21/{matricule}/info"
 
 if matricule:
@@ -80,7 +80,8 @@ if matricule:
 
             # Display the DataFrame
             st.write(df)
-            st.write(f'Moyenne Orientation: {moyenne_orientation}')
+            st.write(f'{moyenne_orientation}:المعدل التوجيهي')
+
         else:
             st.write("Table not found on the webpage.")
     finally:
