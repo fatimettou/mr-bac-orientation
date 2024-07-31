@@ -3,7 +3,6 @@ import streamlit as st
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.core.os_manager import ChromeType
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -18,20 +17,16 @@ url = f"https://dec.education.gov.mr/bac-21/{matricule}/info"
 
 if matricule:
     options = Options()
-    options.add_argument("--disable-gpu")
     options.add_argument("--headless")
+    options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
 
     @st.cache_resource
     def get_driver():
         try:
-            driver = webdriver.Chrome(
-                service=Service(
-                    ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
-                ),
-                options=options,
-            )
+            service = Service(ChromeDriverManager().install())
+            driver = webdriver.Chrome(service=service, options=options)
             return driver
         except Exception as e:
             st.error(f"Failed to initialize WebDriver: {e}")
