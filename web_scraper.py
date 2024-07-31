@@ -9,6 +9,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
+from retrying import retry
 
 # Streamlit input
 st.title('لمعرفة المعدل التوجيهي 2024')
@@ -32,10 +33,15 @@ if matricule:
         )
 
     driver = get_driver()
-    # Open the webpage
-    driver.get(url)
+
+    @retry(stop_max_attempt_number=10, wait_fixed=2000)
+    def load_page(url):
+        driver.get(url)
 
     try:
+        # Try to load the page
+        load_page(url)
+
         # Wait for the table to load
         WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.TAG_NAME, "table"))
