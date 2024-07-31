@@ -25,7 +25,8 @@ if matricule:
     @st.cache_resource
     def get_driver():
         try:
-            service = Service(ChromeDriverManager().install())
+            # Specify the version of ChromeDriver that matches your Chromium version
+            service = Service(ChromeDriverManager(version="120.0.6099.224").install())
             driver = webdriver.Chrome(service=service, options=options)
             return driver
         except Exception as e:
@@ -95,15 +96,4 @@ if matricule:
                 # Add moyenne_orientation to the DataFrame
                 df['moyenne_orientation'] = moyenne_orientation
 
-                # Display the DataFrame
-                st.write(df)
-                st.write(f'{moyenne_orientation}:المعدل التوجيهي')
-            else:
-                st.write("Table not found on the webpage.")
-        except Exception as e:
-            st.error(f"An error occurred: {e}")
-        finally:
-            # Close the browser
-            driver.quit()
-    else:
-        st.error("WebDriver could not be initialized.")
+                # Display the Data
