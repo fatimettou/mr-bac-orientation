@@ -1,12 +1,16 @@
 import pandas as pd
 import streamlit as st
-from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.core.os_manager import ChromeType
+from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
-from webdriver_manager.chrome import ChromeDriverManager
+
+
 
 # Streamlit input
 st.title('Extract Information from Website')
@@ -14,17 +18,20 @@ matricule = st.text_input('Enter your matricule:')
 url = f"https://dec.education.gov.mr/bac-21/{matricule}/info"
 
 if matricule:
-    # Set up Chrome options to use Chromium
-    options = webdriver.ChromeOptions()
-    options.add_argument('--headless')
-    options.add_argument('--no-sandbox')
-    options.add_argument('--disable-dev-shm-usage')
-    options.binary_location = '/usr/bin/chromium-browser'
+    @st.cache_resource
+    def get_driver():
+        return webdriver.Chrome(
+            service=Service(
+                ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
+            ),
+            options=options,
+        )
 
-    # Use webdriver-manager to handle ChromeDriver installation
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=options)
+    options = Options()
+    options.add_argument("--disable-gpu")
+    options.add_argument("--headless")
 
+    driver = get_driver()
     # Open the webpage
     driver.get(url)
 
