@@ -6,14 +6,15 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
+from webdriver_manager.chrome import ChromeDriverManager
 
 # Fonction pour exécuter le scraping
 def scrape_data(matricule):
     # URL de la page web
     url = f"https://dec.education.gov.mr/bac-21/{matricule}/info"
+    
+    service = Service(ChromeDriverManager().install())
 
-    # Chemin vers votre ChromeDriver
-    service = Service('/usr/bin/chromedriver')  # Path for Streamlit Cloud
 
     # Initialiser le driver Chrome
     options = webdriver.ChromeOptions()
